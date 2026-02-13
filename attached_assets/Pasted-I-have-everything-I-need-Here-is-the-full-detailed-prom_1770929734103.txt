@@ -1,0 +1,121 @@
+I have everything I need. Here is the full, detailed prompt:
+
+---
+
+## A.S. Copy — Full Website Prompt
+
+**Build a single-page portfolio website called "A.S. Copy" as one self-contained HTML file with all CSS and JavaScript inline. The site belongs to Aidan Sherin, a freelance copywriter and programmer. Deploy on Netlify. Do not use any build tools, frameworks, or external files — everything must work by opening the HTML file directly in a browser.**
+
+---
+
+### Global Setup
+
+- **Fonts:** Google Fonts — `Inter` (weights 300–800) and `DM Sans` (weights 400–900)
+- **Color variables:**
+  - `--blue: #a2a4ff`
+  - `--white: #FFFFFF`
+  - `--black: #000000`
+  - `--dark-navy: #000120`
+  - `--light-grey: #F5F5F5`
+  - `--dark-grey: #333333`
+  - `--border: #E0E0E0`
+- **Body:** `font-family: Inter`, white background, `overflow-x: hidden`
+- **Page title:** "A.S. Copy - Strategic Design. Education that Converts. Sequences that Sell."
+
+---
+
+### Navigation
+
+- Fixed to the top, full width, white background (`rgba(255,255,255,0.98)`) with `backdrop-filter: blur(10px)`, `z-index: 1000`, `padding: 1rem 5%`
+- Layout: logo on left, nav links centered, Contact button on right — all in one row using flexbox with `max-width: 1400px`
+- **Logo:** "A.S." in bold dark navy, "Copy" in `--blue` (`#a2a4ff`)
+- **Nav links:** Home, Services, Website Samples, Copy Samples — styled as pill-shaped links (`border-radius: 50px`, `padding: 0.75rem 1.5rem`). Active state gets a soft blue tinted background (`rgba(162,164,255,0.1)`). No underlines, no borders, no pseudo-element decorations on any nav links or their before/after states.
+- **Contact button:** filled blue (`#a2a4ff`) pill button, white text, `border-radius: 8px`, links to `#contact`
+- Nav links update their active state both on click and via scroll spy (IntersectionObserver / scroll event tracking which section is in view)
+
+---
+
+### Section 1: Home (Hero)
+
+- **Background:** full viewport height (`min-height: 100vh`), black (`#000000`), `overflow: hidden`, `padding: 8rem 5% 6rem`
+- **Three.js WebGL neural network animation** rendered on a `<canvas id="neural-canvas">` absolutely positioned to fill the full section (`width: 100%`, `height: 100%`). The canvas uses a CPPN (compositional pattern-producing network) GLSL fragment shader that produces flowing purple/blue organic shapes. The plane geometry must be `PlaneGeometry(8, 6)` (wide enough to cover ultrawide monitors). Camera is `PerspectiveCamera(75, aspect, 0.1, 1000)` at `position.z = 1`. Plane mesh at `position.set(0, -0.75, -0.5)`.
+- **Gradient overlay:** `position: absolute; inset: 0` div on top of the canvas with `linear-gradient(to top, rgba(0,2,64,1.0), transparent, rgba(0,2,64,0.2))` and `z-index: 1`
+- **Bottom gradient:** `position: absolute; bottom: 0` strip with `linear-gradient(to top, rgba(0,2,64,1.0), transparent)`, height `6rem`, `z-index: 1`
+- **Content** (`.home-content`): `z-index: 2`, left-aligned, no auto-centering, no inner padding (the section's own `padding: 8rem 5%` handles spacing)
+  - `<h1 id="hero-title">Hi, I'm Aidan</h1>` — white, `font-size: 4rem`, `font-weight: 700`
+  - `<p id="hero-description">I'm a programmer and freelance copywriter running A.S. Copy</p>` — `rgba(255,255,255,0.75)`, `font-weight: 300`, `font-size: 1.125rem`
+  - Two CTA buttons side by side: **"View My Work"** (links to `#website-samples`) and **"Get In Touch"** (links to `#contact`) — both with `border-radius: 16px`, `border: 1px solid rgba(255,255,255,0.1)`, semi-transparent backgrounds, white text
+- **GSAP animation on load:** canvas fades in from `blur(20px)` and `opacity: 0.7` to sharp and `opacity: 1` over 1.5 seconds (`power3.out`, `delay: 0.3`). Hero title, description, and CTA buttons also animate in with staggered fade/slide-up using GSAP (`from opacity:0, y:30`).
+- Load Three.js from `https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js`, GSAP from `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js`
+
+---
+
+### Section 2: What I Do (Services)
+
+- **Background:** `#000240` (dark navy) — applied via both inline style and CSS with `!important` to override any inherited styles. The section uses `.content-section` base class which has `display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 80px); padding: 4rem 5% 6rem`. Do NOT override `display` on this section — leave it as flex.
+- **Heading:** "What I **Do**" — "Do" wrapped in `<span class="highlight">` which colors it `#a2a4ff`. Heading and intro paragraph are white.
+- **Intro paragraph:** "I specialize in website creation and management, along with email, ad, and SMS marketing copy for DTC and service-based businesses—bridging the gap between product awareness and purchase intent."
+- **Sticky stacking accordion** (Vue Billboards-style layering effect): Three white cards that stack on top of each other as the user scrolls. Each card is `position: sticky` with white background (`#FFFFFF`), `border-radius: 16px`, `padding: 1.5rem 2rem`, `box-shadow: 0 4px 20px rgba(0,0,0,0.3)`, `margin-bottom: 1.5rem`. The three cards have staggered `top` values: card 1 = `top: 80px; z-index: 1`, card 2 = `top: 140px; z-index: 2`, card 3 = `top: 200px; z-index: 3`. The `.services-accordion` container has `padding-bottom: 3vh` and `position: relative`. Each card has an icon box (48×48px, `rgba(162,164,255,0.15)` background, `border-radius: 12px`) with an SVG icon in `--blue`, and an `<h3>` title in `#a2a4ff`. Body text is `#000120`.
+  - Card 1: monitor icon, **"Website Design"** — "Your website is your digital storefront. A professional, conversion-focused site builds credibility and turns visitors into customers. Every business needs a strong online presence that reflects your brand and drives action."
+  - Card 2: email icon, **"Email Sequences"** — "Welcome sequences that turn new subscribers into customers. Retention campaigns that increase customer lifetime value. Educational flows that build trust and drive first purchases through strategic messaging."
+  - Card 3: pulse/waveform icon, **"Ad & SMS Copy"** — "Conversion-focused messaging for ads and SMS campaigns. High-impact copy that captures attention and drives immediate action. Test-driven variations to continuously improve performance and scale winners."
+
+---
+
+### Section 3: Website Samples
+
+- **Background:** white (`#FFFFFF`)
+- **Heading:** "Website **Samples**" with "Samples" in `#a2a4ff`
+- **Two website sample images** displayed side by side in a CSS grid (`grid-template-columns: 1fr 1fr`, `gap: 3rem`, `margin: 3rem 0`). Both images are embedded as base64 `<img>` tags with `class="website-sample-img"` (`width: 100%`). Left image = Peak Nutrition website sample. Right image = Guardian Legal website sample.
+- Below the images: a "Need a website like this?" CTA section
+
+---
+
+### Section 4: Copy Samples
+
+- **Background:** `--dark-navy` (`#000120`)
+- **Heading:** "Copy **Samples**" with "Samples" in `#a2a4ff`. Heading and intro in white.
+- **Company selector buttons** (4 buttons in a row):
+  - Urban Thread Co. (industry: Clothing)
+  - Radiant Beauty Lab (industry: Beauty)
+  - Apex Performance (industry: Fitness)
+  - Authority Academy (industry: Info Brand)
+- **Content type tabs** (3 buttons): Email | SMS | Ads
+- **Display area** (`<div id="copyDisplay">`) that renders dynamically via JavaScript based on active company + active tab. Defaults to Urban Thread Co. + Email on load.
+- All 12 copy samples (4 companies × 3 types) are stored in a JavaScript `copyData` object. `renderCopy()` is called on `window` load event and whenever a company or tab button is clicked. The buttons update an `active` class visually.
+- **Copy content for each company:**
+  - **Urban Thread Co.** — Email: welcome series email from "Jake" about authentic sustainable clothing, subject "Your first order is almost ready — here's something to make it special", SMS: flash sale 30% off text, Ads: "The Last Clothing Brand You'll Need" with sustainability angle
+  - **Radiant Beauty Lab** — Email: skincare routine welcome from "Sofia" with 15% off, SMS: new product drop text, Ads: "Finally, Skincare That Works With Your Skin" headline
+  - **Apex Performance** — Email: welcome from "Marcus" with free workout plan, SMS: daily workout reminder, Ads: "Protein Powder Athletes Actually Trust" with 25g grass-fed whey angle
+  - **Authority Academy** — Email: welcome from "David" about marketing skills for entrepreneurs, SMS: first lesson unlocking in 24hrs, Ads: "Build a Business People Actually Buy From"
+
+---
+
+### Section 5: Contact
+
+- **Background:** white
+- **Layout:** two-column CSS grid (`grid-template-columns: 1fr 1.5fr`, `gap: 4rem`) with `max-width: 1400px; margin: 0 auto; padding: 0 5%`
+- **Left column:** "Get In **Touch**" heading, intro: "Ready to elevate your brand with high-converting copy and professional website design? Schedule your free consultation here."
+- **Right column:** Calendly inline widget (`https://calendly.com/aidansherin123/30min?hide_event_type_details=1&hide_gdpr_banner=1`), `height: 700px`, loaded via `<script src="https://assets.calendly.com/assets/external/widget.js">`
+
+---
+
+### Footer
+
+- **Background:** dark navy (`--dark-navy`)
+- Two-column layout: left side has "A.S. Copy" heading and tagline "Strategic Design. Education that converts. Sequences that sell." Right side has "Connect" heading with two links:
+  - Email: `mailto:aidansherin123@gmail.com` — displayed as plain text `aidansherin123@gmail.com` with envelope SVG icon. **Must not be obfuscated by Cloudflare.** Disable Cloudflare Email Address Obfuscation in Scrape Shield settings on Netlify/Cloudflare.
+  - Instagram: `https://instagram.com/aidansherin` displayed as `@aidansherin` with Instagram SVG icon (filled style)
+
+---
+
+### Critical Technical Rules
+
+1. **No horizontal scroll** — `body` has `overflow-x: hidden`
+2. **Gradient fills full width** — `#home`, `#neural-canvas`, and `.neural-gradient-overlay` all use `width: 100%` (NOT `100vw`, which causes gaps due to scrollbar width)
+3. **Hero text alignment** — "Hi, I'm Aidan" must left-align to the same 5% left edge as "What I Do". Achieved by `padding: 8rem 5% 6rem` on `#home` with no inner padding or auto-centering on `.home-content`
+4. **Sticky accordion requires `display: flex` to remain on `.content-section`** — do not override `display` on `#services`. The sticky cards work because the flex container's height is taller than the viewport, giving `position: sticky` room to activate
+5. **Website sample images** have `gap: 3rem` between them; outer edges align with the section's `5%` padding
+6. **All JavaScript uses `var` and plain `for` loops** (no ES6) to avoid any scoping issues. Copy sample functions (`showCompany`, `showTab`, `renderCopy`) are all global scope
+7. **`renderCopy()`** is initialized on `window.addEventListener('load', ...)` as well as being called directly in a `DOMContentLoaded` block as a fallback
+8. **Cloudflare** will re-obfuscate `mailto:` links each deploy — must turn off Email Address Obfuscation in Cloudflare dashboard under Scrape Shield
